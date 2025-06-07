@@ -1,3 +1,6 @@
 [submodule "mma2025"]
 	path = mma2025
 	url = https://github.com/GoncaloBFM/mma2025.git
+[submodule "g_retriever"]
+	path = g_retriever
+	url = https://github.com/XiaoxinHe/G-Retriever.git
