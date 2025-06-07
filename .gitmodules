@@ -1,0 +1,3 @@
+[submodule "mma2025"]
+	path = mma2025
+	url = https://github.com/GoncaloBFM/mma2025.git
