@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Exit on error
-set -e
+# set -e
 
 # set python path
 export PYTHONPATH="$PYTHONPATH:$PWD/mma2025"

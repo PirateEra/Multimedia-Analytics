@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu_mig
+#SBATCH --gpus=1
+#SBATCH --job-name=RunSample
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=9
+#SBATCH --time=04:00:00
+#SBATCH --output=output/slurm_output_%A.out
+
+# Load modules
+module purge
+module load 2023
+module load Anaconda3/2023.07-2
+
+# Initialize Conda in batch mode
+source ~/.bashrc  # OR the full init path (see note below)
+source activate g_retriever
+
+export CUDA_VISIBLE_DEVICES=0
+
+# Go to the correct working directory
+cd $HOME/Multimedia-Analytics/Multimedia-Analytics/g_retriever/
+
+QUERY="What are the main reasons shown in the graph for women undergoing cosmetic surgery?"
+seed=1
+
+# expla_graphs
+python infer_sample.py \
+    --query "$QUERY" \
+    --dataset expla_graphs \
+    --model_name graph_llm \
+    --llm_model_name 7b_chat \
+    --max_txt_len 0 \
+    --seed $seed
