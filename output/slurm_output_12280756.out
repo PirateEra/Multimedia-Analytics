@@ -1,0 +1,49 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Loaded config for model graph_llm on dataset expla_graphs
+Loading LLAMA
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.94s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.06s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.34s/it]
+Freezing LLAMA!
+Finish loading LLAMA!
+Traceback (most recent call last):
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/Multimedia-Analytics/g_retriever/infer_sample.py", line 47, in <module>
+    main(args)
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/Multimedia-Analytics/g_retriever/infer_sample.py", line 31, in main
+    sample = dataset[0]  # use a sample entry — can be adjusted
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/Multimedia-Analytics/g_retriever/src/dataset/expla_graphs.py", line 26, in __getitem__
+    graph = torch.load(f'{PATH}/graphs/{index}.pt')
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'dataset/expla_graphs/graphs/0.pt'
+
+JOB STATISTICS
+==============
+Job ID: 12280756
+Cluster: snellius
+User/Group: scur0288/scur0288
+State: RUNNING
+Nodes: 1
+Cores per node: 9
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:04:03 core-walltime
+Job Wall-clock time: 00:00:27
+Memory Utilized: 0.00 MB
+Memory Efficiency: 0.00% of 60.00 GB (60.00 GB/node)
+WARNING: Efficiency statistics can only be obtained after the job has ended as seff tool is based on the accounting database data.
