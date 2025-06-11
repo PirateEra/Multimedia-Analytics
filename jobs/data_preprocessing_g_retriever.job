@@ -5,7 +5,7 @@
 #SBATCH --job-name=PreprocessData
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=9
-#SBATCH --time=00:30:00
+#SBATCH --time=02:00:00
 #SBATCH --output=output/slurm_output_%A.out
 
 # Load modules
@@ -25,8 +25,8 @@ cd $HOME/Multimedia-Analytics/g_retriever_m/
 # python -m src.dataset.expla_graphs
 
 # scene_graphs, might take
-python -m src.dataset.preprocess.scene_graphs
-python -m src.dataset.scene_graphs
+srun python -m src.dataset.preprocess.scene_graphs
+srun python -m src.dataset.scene_graphs
 
 # # webqsp
 # python -m src.dataset.preprocess.webqsp
