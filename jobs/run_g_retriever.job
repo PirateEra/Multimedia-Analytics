@@ -26,7 +26,7 @@ QUERY="Do argument 1 and argument 2 support or counter each other? Answer in one
 seed=1
 
 # expla_graphs
-python infer_sample.py \
+srun python infer_sample.py \
     --query "$QUERY" \
     --dataset expla_graphs \
     --model_name graph_llm \
