@@ -21,12 +21,12 @@ source activate g_retriever
 cd $HOME/Multimedia-Analytics/g_retriever_m/
 
 # expla_graphs
-python -m src.dataset.preprocess.expla_graphs
-python -m src.dataset.expla_graphs
+# python -m src.dataset.preprocess.expla_graphs
+# python -m src.dataset.expla_graphs
 
-# # scene_graphs, might take
-# python -m src.dataset.preprocess.scene_graphs
-# python -m src.dataset.scene_graphs
+# scene_graphs, might take
+python -m src.dataset.preprocess.scene_graphs
+python -m src.dataset.scene_graphs
 
 # # webqsp
 # python -m src.dataset.preprocess.webqsp
