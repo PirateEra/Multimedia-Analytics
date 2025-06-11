@@ -22,13 +22,25 @@ export CUDA_VISIBLE_DEVICES=0
 # Go to the correct working directory
 cd $HOME/Multimedia-Analytics/g_retriever_m/
 
-QUERY="Do argument 1 and argument 2 support or counter each other? Answer in one word in the form of 'support' or 'counter'."
+# QUERY="Do argument 1 and argument 2 support or counter each other? Answer in one word in the form of 'support' or 'counter'."
+# seed=1
+
+# # expla_graphs
+# srun python infer_sample.py \
+#     --query "$QUERY" \
+#     --dataset expla_graphs \
+#     --model_name graph_llm \
+#     --llm_model_name 7b_chat \
+#     --max_txt_len 0 \
+#     --seed $seed
+
+QUERY="Is there a woman to the right of the person behind the computer?"
 seed=1
 
-# expla_graphs
+# scene_graphs
 srun python infer_sample.py \
     --query "$QUERY" \
-    --dataset expla_graphs \
+    --dataset scene_graphs \
     --model_name graph_llm \
     --llm_model_name 7b_chat \
     --max_txt_len 0 \

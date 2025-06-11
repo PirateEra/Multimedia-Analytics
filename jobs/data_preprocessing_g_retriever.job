@@ -25,9 +25,9 @@ cd $HOME/Multimedia-Analytics/g_retriever_m/
 # python -m src.dataset.expla_graphs
 
 # scene_graphs, might take
-srun python -m src.dataset.preprocess.scene_graphs
-srun python -m src.dataset.scene_graphs
+# srun python -m src.dataset.preprocess.scene_graphs
+# srun python -m src.dataset.scene_graphs
 
 # # webqsp
-# python -m src.dataset.preprocess.webqsp
-# python -m src.dataset.webqsp
+python -m src.dataset.preprocess.webqsp
+python -m src.dataset.webqsp
