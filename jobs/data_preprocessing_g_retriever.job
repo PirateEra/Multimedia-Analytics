@@ -18,7 +18,7 @@ source ~/.bashrc  # OR the full init path (see note below)
 source activate g_retriever
 
 # Go to the correct working directory
-cd $HOME/Multimedia-Analytics/Multimedia-Analytics/g_retriever_m/
+cd $HOME/Multimedia-Analytics/g_retriever_m/
 
 # expla_graphs
 python -m src.dataset.preprocess.expla_graphs
