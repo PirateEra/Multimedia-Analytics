@@ -34,13 +34,25 @@ cd $HOME/Multimedia-Analytics/g_retriever_m/
 #     --max_txt_len 0 \
 #     --seed $seed
 
-QUERY="Is there a woman to the right of the person behind the computer?"
+# QUERY="Is there a woman to the right of the person behind the computer?"
+# seed=1
+
+# # scene_graphs
+# srun python infer_sample.py \
+#     --query "$QUERY" \
+#     --dataset scene_graphs \
+#     --model_name graph_llm \
+#     --llm_model_name 7b_chat \
+#     --max_txt_len 0 \
+#     --seed $seed
+
+QUERY="What is the name of justim bieber brother?"
 seed=1
 
-# scene_graphs
+# webqsp
 srun python infer_sample.py \
     --query "$QUERY" \
-    --dataset scene_graphs \
+    --dataset webqsp \
     --model_name graph_llm \
     --llm_model_name 7b_chat \
     --max_txt_len 0 \
