@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --partition=gpu_mig
+#SBATCH --partition=gpu_a100
 #SBATCH --gpus=1
 #SBATCH --job-name=PreprocessData
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=9
-#SBATCH --time=04:00:00
+#SBATCH --time=00:30:00
 #SBATCH --output=output/slurm_output_%A.out
 
 # Load modules
@@ -18,7 +18,7 @@ source ~/.bashrc  # OR the full init path (see note below)
 source activate g_retriever
 
 # Go to the correct working directory
-cd $HOME/Multimedia-Analytics/Multimedia-Analytics/g_retriever/
+cd $HOME/Multimedia-Analytics/Multimedia-Analytics/g_retriever_m/
 
 # expla_graphs
 python -m src.dataset.preprocess.expla_graphs
