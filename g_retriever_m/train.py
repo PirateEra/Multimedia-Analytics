@@ -22,9 +22,9 @@ def main(args):
 
     # Step 1: Set up wandb
     seed = args.seed
-    wandb.init(project=f"{args.project}",
-               name=f"{args.dataset}_{args.model_name}_seed{seed}",
-               config=args)
+    # wandb.init(project=f"{args.project}",
+    #            name=f"{args.dataset}_{args.model_name}_seed{seed}",
+    #            config=args)
 
     seed_everything(seed=args.seed)
     print(args)
