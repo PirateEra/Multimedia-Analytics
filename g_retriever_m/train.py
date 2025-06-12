@@ -142,7 +142,7 @@ def main(args):
 if __name__ == "__main__":
 
     args = parse_args_llama()
-
+    load_dotenv()
     main(args)
     torch.cuda.empty_cache()
     torch.cuda.reset_max_memory_allocated()
