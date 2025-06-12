@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --job-name=RunSample
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=9
+#SBATCH --time=00:00:00
+#SBATCH --output=train/slurm_output_%A.out
+
+# Load modules
+module purge
+module load 2023
+module load Anaconda3/2023.07-2
+
+# Initialize Conda in batch mode
+source ~/.bashrc  # OR the full init path (see note below)
+source activate g_retriever
+
+export CUDA_VISIBLE_DEVICES=0
+
+# Go to the correct working directory
+cd $HOME/Multimedia-Analytics/g_retriever_m/
+
+seed=1
+
+# g-retriever + finetuning with lora
+srun python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False --seed $seed
+srun python train.py --dataset scene_graphs --model_name graph_llm --llm_frozen False --seed $seed
+srun python train.py --dataset webqsp --model_name graph_llm --llm_frozen False --seed $seed
+
+
