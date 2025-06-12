@@ -34,26 +34,26 @@ cd $HOME/Multimedia-Analytics/g_retriever_m/
 #     --max_txt_len 0 \
 #     --seed $seed
 
-QUERY="Are the white blinds to the right of a clock?"
-seed=1
-
-# scene_graphs
-srun python infer_sample.py \
-    --query "$QUERY" \
-    --dataset scene_graphs \
-    --model_name graph_llm \
-    --llm_model_name 7b_chat \
-    --max_txt_len 0 \
-    --seed $seed
-
-# QUERY="What is the name of justim bieber brother?"
+# QUERY="Are the white blinds to the right of a clock?"
 # seed=1
 
-# # webqsp
+# # scene_graphs
 # srun python infer_sample.py \
 #     --query "$QUERY" \
-#     --dataset webqsp \
+#     --dataset scene_graphs \
 #     --model_name graph_llm \
 #     --llm_model_name 7b_chat \
 #     --max_txt_len 0 \
 #     --seed $seed
+
+QUERY="What is the name of justim bieber brother?"
+seed=1
+
+# webqsp
+srun python infer_sample.py \
+    --query "$QUERY" \
+    --dataset webqsp \
+    --model_name graph_llm \
+    --llm_model_name 7b_chat \
+    --max_txt_len 0 \
+    --seed $seed
