@@ -1,5 +1,5 @@
 import os
-import wandb
+# import wandb
 import gc
 from tqdm import tqdm
 import torch
@@ -82,14 +82,14 @@ def main(args):
 
             if (step + 1) % args.grad_steps == 0:
                 lr = optimizer.param_groups[0]["lr"]
-                wandb.log({'Lr': lr})
-                wandb.log({'Accum Loss': accum_loss / args.grad_steps})
+                # wandb.log({'Lr': lr})
+                # wandb.log({'Accum Loss': accum_loss / args.grad_steps})
                 accum_loss = 0.
 
             progress_bar.update(1)
 
         print(f"Epoch: {epoch}|{args.num_epochs}: Train Loss (Epoch Mean): {epoch_loss / len(train_loader)}")
-        wandb.log({'Train Loss (Epoch Mean)': epoch_loss / len(train_loader)})
+        # wandb.log({'Train Loss (Epoch Mean)': epoch_loss / len(train_loader)})
 
         val_loss = 0.
         eval_output = []
@@ -100,7 +100,7 @@ def main(args):
                 val_loss += loss.item()
             val_loss = val_loss/len(val_loader)
             print(f"Epoch: {epoch}|{args.num_epochs}: Val Loss: {val_loss}")
-            wandb.log({'Val Loss': val_loss})
+            # wandb.log({'Val Loss': val_loss})
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
@@ -136,7 +136,7 @@ def main(args):
     # Step 6. Post-processing & compute metrics
     acc = eval_funcs[args.dataset](path)
     print(f'Test Acc {acc}')
-    wandb.log({'Test Acc': acc})
+    # wandb.log({'Test Acc': acc})
 
 
 if __name__ == "__main__":
