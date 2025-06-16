@@ -46,14 +46,26 @@ cd $HOME/Multimedia-Analytics/g_retriever_m/
 #     --max_txt_len 0 \
 #     --seed $seed
 
+# QUERY="What is the name of justim bieber brother?"
+# seed=1
+
+# # webqsp
+# srun python infer_sample.py \
+#     --query "$QUERY" \
+#     --dataset webqsp \
+#     --model_name graph_llm \
+#     --llm_model_name 7b_chat \
+#     --max_txt_len 0 \
+#     --seed $seed
+
 QUERY="What is the name of justim bieber brother?"
 seed=1
 
-# webqsp
 srun python infer_sample.py \
     --query "$QUERY" \
     --dataset webqsp \
     --model_name graph_llm \
     --llm_model_name 7b_chat \
+    --sample_idx 0 \
     --max_txt_len 0 \
     --seed $seed

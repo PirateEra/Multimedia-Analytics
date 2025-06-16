@@ -7,6 +7,8 @@ def parse_args_llama():
     parser = argparse.ArgumentParser(description="G-Retriever")
 
     parser.add_argument("--query", type=str, default='')
+    parser.add_argument("--sample_idx", type=int, default=0,
+                        help="Dataset index used to select the graph for live inference")
     parser.add_argument("--model_name", type=str, default='graph_llm')
     parser.add_argument("--project", type=str, default="project_g_retriever")
     parser.add_argument("--seed", type=int, default=0)

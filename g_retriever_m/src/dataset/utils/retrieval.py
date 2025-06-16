@@ -3,6 +3,19 @@ import numpy as np
 from pcst_fast import pcst_fast
 from torch_geometric.data.data import Data
 
+class AttentionScorer(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.linear_q = torch.nn.Linear(dim, dim)
+        self.linear_k = torch.nn.Linear(dim, dim)
+        self.out = torch.nn.Linear(dim, 1)
+
+    def forward(self, query, keys):
+        q = self.linear_q(query).unsqueeze(0)       # (1, d)
+        k = self.linear_k(keys)                     # (N, d)
+        scores = self.out(torch.tanh(q + k)).squeeze(-1)  # (N,)
+        return scores
+
 
 def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_e=3, cost_e=0.5):
     c = 0.01
@@ -17,6 +30,8 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     verbosity_level = 0
     if topk > 0:
         n_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.x)
+        print('n_prizes:')
+        print(n_prizes)
         topk = min(topk, graph.num_nodes)
         _, topk_n_indices = torch.topk(n_prizes, topk, largest=True)
 
@@ -27,6 +42,8 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
 
     if topk_e > 0:
         e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
+        print('e_prizes:')
+        print(e_prizes)
         topk_e = min(topk_e, e_prizes.unique().size(0))
 
         topk_e_values, _ = torch.topk(e_prizes.unique(), topk_e, largest=True)
