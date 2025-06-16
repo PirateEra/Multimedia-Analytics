@@ -19,6 +19,7 @@ class AttentionScorer(torch.nn.Module):
 
 def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_e=3, cost_e=0.5):
     c = 0.01
+    attention_scorer = AttentionScorer(1024)
     if len(textual_nodes) == 0 or len(textual_edges) == 0:
         desc = textual_nodes.to_csv(index=False) + '\n' + textual_edges.to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
         graph = Data(x=graph.x, edge_index=graph.edge_index, edge_attr=graph.edge_attr, num_nodes=graph.num_nodes)
@@ -29,7 +30,10 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     pruning = 'gw'
     verbosity_level = 0
     if topk > 0:
-        n_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.x)
+        # n_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.x)
+        n_prizes_grad = attention_scorer(q_emb, graph.x)
+        n_prizes = n_prizes_grad.detach()
+        print('attention!')
         print('n_prizes:')
         print(n_prizes)
         topk = min(topk, graph.num_nodes)
@@ -41,7 +45,9 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
         n_prizes = torch.zeros(graph.num_nodes)
 
     if topk_e > 0:
-        e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
+        # e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
+        e_prizes_grad = attention_scorer(q_emb, graph.edge_attr)
+        e_prizes = e_prizes_grad.detach()
         print('e_prizes:')
         print(e_prizes)
         topk_e = min(topk_e, e_prizes.unique().size(0))
