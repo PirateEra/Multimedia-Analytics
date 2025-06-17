@@ -50,13 +50,11 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
         e_prizes = e_prizes_grad.detach().clone()
         print('e_prizes:')
         print(e_prizes)
-        print("E prizes grad", e_prizes_grad)
         topk_e = min(topk_e, e_prizes.unique().size(0))
 
         topk_e_values, _ = torch.topk(e_prizes.unique(), topk_e, largest=True)
         e_prizes[e_prizes < topk_e_values[-1]] = 0.0
         last_topk_e_value = topk_e
-        print("E prizes grad", e_prizes_grad)
         for k in range(topk_e):
             indices = e_prizes == topk_e_values[k]
             value = min((topk_e-k)/sum(indices), last_topk_e_value)
@@ -64,11 +62,9 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
             last_topk_e_value = value*(1-c)
         # reduce the cost of the edges such that at least one edge is selected
         cost_e = min(cost_e, e_prizes.max().item()*(1-c/2))
-        print("E prizes grad", e_prizes_grad)
     else:
         e_prizes = torch.zeros(graph.num_edges)
     
-    print("E prizes grad", e_prizes_grad)
     costs = []
     edges = []
     vritual_n_prizes = []
@@ -91,7 +87,6 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
             virtual_costs.append(0)
             vritual_n_prizes.append(prize_e - cost_e)
 
-    print("E prizes grad", e_prizes_grad)
     prizes = np.concatenate([n_prizes, np.array(vritual_n_prizes)])
     num_edges = len(edges)
     if len(virtual_costs) > 0:
@@ -108,7 +103,6 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
         virtual_edges = [mapping_n[i] for i in virtual_vertices]
         selected_edges = np.array(selected_edges+virtual_edges)
 
-    print("E prizes grad", e_prizes_grad)
     edge_index = graph.edge_index[:, selected_edges]
     selected_nodes = np.unique(np.concatenate([selected_nodes, edge_index[0].numpy(), edge_index[1].numpy()]))
 
@@ -125,5 +119,4 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     edge_index = torch.LongTensor([src, dst])
     data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, num_nodes=len(selected_nodes))
 
-    print("E prizes grad", e_prizes_grad)
     return data, desc, n_prizes_grad, e_prizes_grad
