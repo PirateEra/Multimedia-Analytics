@@ -50,11 +50,13 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
         e_prizes = e_prizes_grad.detach()
         print('e_prizes:')
         print(e_prizes)
+        print("E prizes grad", e_prizes_grad)
         topk_e = min(topk_e, e_prizes.unique().size(0))
 
         topk_e_values, _ = torch.topk(e_prizes.unique(), topk_e, largest=True)
         e_prizes[e_prizes < topk_e_values[-1]] = 0.0
         last_topk_e_value = topk_e
+        print("E prizes grad", e_prizes_grad)
         for k in range(topk_e):
             indices = e_prizes == topk_e_values[k]
             value = min((topk_e-k)/sum(indices), last_topk_e_value)
@@ -62,6 +64,7 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
             last_topk_e_value = value*(1-c)
         # reduce the cost of the edges such that at least one edge is selected
         cost_e = min(cost_e, e_prizes.max().item()*(1-c/2))
+        print("E prizes grad", e_prizes_grad)
     else:
         e_prizes = torch.zeros(graph.num_edges)
     
