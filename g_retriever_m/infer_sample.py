@@ -143,6 +143,8 @@ def main(args):
     print(n_prizes[1])
     print(e_prizes[0])
     print(e_prizes[1])
+    print(n_prizes)
+    print(e_prizes)
 
 
 
