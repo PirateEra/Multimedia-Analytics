@@ -84,9 +84,9 @@ def main(args):
     query = args.query
 
     # Step 4: Prepare a sample
-    sample = dataset[0]  # use a sample entry
-    print(sample)
-    sample["question"] = query
+    # sample = dataset[0]  # use a sample entry
+    # print(sample)
+    # sample["question"] = query
     # Load dataset module for access to path constants
     dataset_module = importlib.import_module(f"src.dataset.{args.dataset}")
 
