@@ -41,6 +41,7 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
 
         n_prizes = torch.zeros_like(n_prizes)
         n_prizes[topk_n_indices] = torch.arange(topk, 0, -1).float()
+        print(n_prizes)
     else:
         n_prizes = torch.zeros(graph.num_nodes)
 
