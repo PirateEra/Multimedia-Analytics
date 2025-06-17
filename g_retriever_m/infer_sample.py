@@ -155,4 +155,5 @@ if __name__ == "__main__":
     # plt.show
     subgraph_visualization = to_networkx(subg, to_undirected=True)
     nx.draw(subgraph_visualization)
+    plt.savefig("test_subg_img.png")
     torch.cuda.empty_cache()
