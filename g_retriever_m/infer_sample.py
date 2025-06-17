@@ -97,10 +97,10 @@ def main(args):
     # Determine which graph to use
     idx = args.sample_idx
     if hasattr(dataset, "questions"):
+        # hij komt nooit hierin? is dit stukje nodig?
         row = dataset.questions.iloc[idx]
         graph_id = row.get("image_id", idx)
         label = row.get("answer", "")
-        # hij komt nooit hierin?
     else:
         graph_id = idx
         # label = ""
@@ -139,8 +139,11 @@ def main(args):
     print("test")
     print("subgraph", subg)
     print(sample)
-    print(n_prizes)
-    print(e_prizes)
+    print(n_prizes[0])
+    print(n_prizes[1])
+    print(e_prizes[0])
+    print(e_prizes[1])
+
 
 
 if __name__ == "__main__":
