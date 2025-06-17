@@ -103,9 +103,8 @@ def main(args):
         # hij komt nooit hierin?
     else:
         graph_id = idx
-        label = ""
-        print(dataset[graph_id])
-        # label = dataset[graph_id]["answer"]
+        # label = ""
+        label = dataset[graph_id]["label"]
 
     graph = torch.load(f"{dataset_module.path_graphs}/{graph_id}.pt")
     nodes = pd.read_csv(f"{dataset_module.path_nodes}/{graph_id}.csv")
