@@ -140,20 +140,21 @@ def main(args):
     for i, pred in enumerate(output["pred"]):
         print(f"→ {pred}")
 
-    return subg, pred, attn_nodes, attn_edges
+    return subg, pred, attn_nodes, attn_edges, dataset[0]
 
 
 if __name__ == "__main__":
     args = parse_args_llama()
     load_dotenv()
-    subg, pred, attn_nodes, attn_edges = main(args)
+    subg, pred, attn_nodes, attn_edges, sample_0 = main(args)
     print(subg)
     print(pred)
     print(attn_nodes)
     print(attn_edges)
     # Explanation(subg, edge_index=subg.edge_index, edge_attr=subg.edge_attr).visualize_graph(backend='networkx')
     # plt.show
-    subgraph_visualization = to_networkx(subg, to_undirected=True)
+    # subgraph_visualization = to_networkx(subg, to_undirected=True)
+    subgraph_visualization = to_networkx(sample_0['graph'], to_undirected=True)
     nx.draw(subgraph_visualization)
-    plt.savefig("test_subg_img.png")
+    plt.savefig("test_subg_img1.png")
     torch.cuda.empty_cache()
