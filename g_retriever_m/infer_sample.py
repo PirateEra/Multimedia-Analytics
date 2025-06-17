@@ -84,8 +84,8 @@ def main(args):
     query = args.query
 
     # Step 4: Prepare a sample
-    sample = dataset[0]  # use a sample entry
-    print(sample)
+    # sample = dataset[0]  # use a sample entry
+    # print(sample)
     # sample["question"] = query
     # Load dataset module for access to path constants
     dataset_module = importlib.import_module(f"src.dataset.{args.dataset}")
@@ -103,8 +103,9 @@ def main(args):
         # hij komt nooit hierin?
     else:
         graph_id = idx
-        # label = ""
-        label = dataset[graph_id]["answer"]
+        label = ""
+        print(dataset[graph_id])
+        # label = dataset[graph_id]["answer"]
 
     graph = torch.load(f"{dataset_module.path_graphs}/{graph_id}.pt")
     nodes = pd.read_csv(f"{dataset_module.path_nodes}/{graph_id}.csv")
