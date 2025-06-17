@@ -32,7 +32,7 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     if topk > 0:
         # n_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.x)
         n_prizes_grad = attention_scorer(q_emb, graph.x)
-        n_prizes = n_prizes_grad.detach()
+        n_prizes = n_prizes_grad.detach().clone()
         print('attention!')
         print('n_prizes:')
         print(n_prizes)
@@ -47,7 +47,7 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     if topk_e > 0:
         # e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
         e_prizes_grad = attention_scorer(q_emb, graph.edge_attr)
-        e_prizes = e_prizes_grad.detach()
+        e_prizes = e_prizes_grad.detach().clone()
         print('e_prizes:')
         print(e_prizes)
         print("E prizes grad", e_prizes_grad)
