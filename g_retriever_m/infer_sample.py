@@ -116,7 +116,7 @@ def main(args):
 
     # Encode user question and retrieve subgraph
     q_emb = text2embedding(emb_model, emb_tokenizer, emb_device, [query])[0]
-    subg, desc, attn_nodes, attn_edges = retrieval_via_pcst(
+    subg, desc, attn_nodes, attn_edges, mapping = retrieval_via_pcst(
         graph, q_emb, nodes, edges,
         topk=3, topk_e=5 if "webqsp" in args.dataset else 3, cost_e=0.5)
 
@@ -140,17 +140,18 @@ def main(args):
     for i, pred in enumerate(output["pred"]):
         print(f"→ {pred}")
 
-    return subg, pred, attn_nodes, attn_edges, dataset[0]
+    return subg, pred, attn_nodes, attn_edges, dataset[0], mapping
 
 
 if __name__ == "__main__":
     args = parse_args_llama()
     load_dotenv()
-    subg, pred, attn_nodes, attn_edges, sample_0 = main(args)
+    subg, pred, attn_nodes, attn_edges, sample_0, mapping = main(args)
     print(subg)
     print(pred)
     print(attn_nodes)
     print(attn_edges)
+    print(mapping)
     # Explanation(subg, edge_index=subg.edge_index, edge_attr=subg.edge_attr).visualize_graph(backend='networkx')
     # plt.show
     # subgraph_visualization = to_networkx(subg, to_undirected=True)

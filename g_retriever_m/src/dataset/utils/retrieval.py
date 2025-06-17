@@ -119,4 +119,4 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     edge_index = torch.LongTensor([src, dst])
     data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, num_nodes=len(selected_nodes))
 
-    return data, desc, n_prizes_grad, e_prizes_grad
+    return data, desc, n_prizes_grad, e_prizes_grad, mapping
