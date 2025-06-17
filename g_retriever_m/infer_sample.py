@@ -62,6 +62,7 @@ import pandas as pd
 from src.utils.collate import collate_fn
 from dotenv import load_dotenv
 from torch_geometric.explain import Explanation
+import matplotlib.pyplot as plt
 
 
 def main(args):
@@ -149,4 +150,5 @@ if __name__ == "__main__":
     print(attn_nodes)
     print(attn_edges)
     Explanation(subg, edge_index=subg.edge_index, edge_attr=subg.edge_attr).visualize_graph(backend='networkx')
+    plt.show
     torch.cuda.empty_cache()
