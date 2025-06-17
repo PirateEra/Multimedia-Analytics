@@ -48,8 +48,8 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
         # e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
         e_prizes_grad = attention_scorer(q_emb, graph.edge_attr)
         e_prizes = e_prizes_grad.detach()
-        # print('e_prizes:')
-        # print(e_prizes)
+        print('e_prizes:')
+        print(e_prizes)
         topk_e = min(topk_e, e_prizes.unique().size(0))
 
         topk_e_values, _ = torch.topk(e_prizes.unique(), topk_e, largest=True)
@@ -88,7 +88,7 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
             vritual_n_prizes.append(prize_e - cost_e)
 
     prizes = np.concatenate([n_prizes, np.array(vritual_n_prizes)])
-    print("prizes", prizes)
+    # print("prizes", prizes)
     num_edges = len(edges)
     if len(virtual_costs) > 0:
         costs = np.array(costs+virtual_costs)
@@ -120,4 +120,4 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     edge_index = torch.LongTensor([src, dst])
     data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, num_nodes=len(selected_nodes))
 
-    return data, desc
+    return data, desc, n_prizes, e_prizes

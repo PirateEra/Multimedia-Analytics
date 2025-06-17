@@ -84,8 +84,8 @@ def main(args):
     query = args.query
 
     # Step 4: Prepare a sample
-    # sample = dataset[0]  # use a sample entry
-    # print(sample)
+    sample = dataset[0]  # use a sample entry
+    print(sample)
     # sample["question"] = query
     # Load dataset module for access to path constants
     dataset_module = importlib.import_module(f"src.dataset.{args.dataset}")
@@ -100,6 +100,8 @@ def main(args):
         row = dataset.questions.iloc[idx]
         graph_id = row.get("image_id", idx)
         label = row.get("answer", "")
+        print("label")
+        print(row.get("answer"))
     else:
         graph_id = idx
         label = ""
@@ -110,7 +112,7 @@ def main(args):
 
     # Encode user question and retrieve subgraph
     q_emb = text2embedding(emb_model, emb_tokenizer, emb_device, [query])[0]
-    subg, desc = retrieval_via_pcst(
+    subg, desc, n_prizes, e_prizes = retrieval_via_pcst(
         graph, q_emb, nodes, edges,
         topk=3, topk_e=5 if "webqsp" in args.dataset else 3, cost_e=0.5)
 
@@ -137,6 +139,8 @@ def main(args):
     print("test")
     print("subgraph", subg)
     print(sample)
+    print(n_prizes)
+    print(e_prizes)
 
 
 if __name__ == "__main__":
