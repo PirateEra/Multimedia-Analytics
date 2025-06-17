@@ -134,6 +134,10 @@ def main(args):
     for i, pred in enumerate(output["pred"]):
         print(f"→ {pred}")
 
+    print("test")
+    print("subgraph", subg)
+    print(sample)
+
 
 if __name__ == "__main__":
     args = parse_args_llama()
