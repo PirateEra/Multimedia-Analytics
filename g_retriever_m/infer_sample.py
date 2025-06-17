@@ -112,7 +112,7 @@ def main(args):
 
     # Encode user question and retrieve subgraph
     q_emb = text2embedding(emb_model, emb_tokenizer, emb_device, [query])[0]
-    subg, desc, n_prizes, e_prizes = retrieval_via_pcst(
+    subg, desc, attn_nodes, attn_edges = retrieval_via_pcst(
         graph, q_emb, nodes, edges,
         topk=3, topk_e=5 if "webqsp" in args.dataset else 3, cost_e=0.5)
 
@@ -136,9 +136,15 @@ def main(args):
     for i, pred in enumerate(output["pred"]):
         print(f"→ {pred}")
 
+    return subg, pred, attn_nodes, attn_edges
+
 
 if __name__ == "__main__":
     args = parse_args_llama()
     load_dotenv()
-    main(args)
+    subg, pred, attn_nodes, attn_edges = main(args)
+    print(subg)
+    print(pred)
+    print(attn_nodes)
+    print(attn_edges)
     torch.cuda.empty_cache()
