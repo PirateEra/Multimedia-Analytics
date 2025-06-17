@@ -100,11 +100,11 @@ def main(args):
         row = dataset.questions.iloc[idx]
         graph_id = row.get("image_id", idx)
         label = row.get("answer", "")
-        print("label")
-        print(row.get("answer"))
+        # hij komt nooit hierin?
     else:
         graph_id = idx
-        label = ""
+        # label = ""
+        label = dataset[graph_id]["answer"]
 
     graph = torch.load(f"{dataset_module.path_graphs}/{graph_id}.pt")
     nodes = pd.read_csv(f"{dataset_module.path_nodes}/{graph_id}.csv")
