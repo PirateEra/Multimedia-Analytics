@@ -19,7 +19,7 @@ class AttentionScorer(torch.nn.Module):
 
 def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_e=3, cost_e=0.5):
     c = 0.01
-    attention_scorer = AttentionScorer(1024)
+    # attention_scorer = AttentionScorer(1024)
     if len(textual_nodes) == 0 or len(textual_edges) == 0:
         desc = textual_nodes.to_csv(index=False) + '\n' + textual_edges.to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
         graph = Data(x=graph.x, edge_index=graph.edge_index, edge_attr=graph.edge_attr, num_nodes=graph.num_nodes)
@@ -30,12 +30,12 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     pruning = 'gw'
     verbosity_level = 0
     if topk > 0:
-        # n_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.x)
-        n_prizes_grad = attention_scorer(q_emb, graph.x)
-        n_prizes = n_prizes_grad.detach().clone()
-        print('attention!')
-        print('n_prizes:')
-        print(n_prizes)
+        n_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.x)
+        # n_prizes_grad = attention_scorer(q_emb, graph.x)
+        # n_prizes = n_prizes_grad.detach().clone()
+        # print('attention!')
+        # print('n_prizes:')
+        # print(n_prizes)
         topk = min(topk, graph.num_nodes)
         _, topk_n_indices = torch.topk(n_prizes, topk, largest=True)
 
@@ -45,11 +45,11 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
         n_prizes = torch.zeros(graph.num_nodes)
 
     if topk_e > 0:
-        # e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
-        e_prizes_grad = attention_scorer(q_emb, graph.edge_attr)
-        e_prizes = e_prizes_grad.detach().clone()
-        print('e_prizes:')
-        print(e_prizes)
+        e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
+        # e_prizes_grad = attention_scorer(q_emb, graph.edge_attr)
+        # e_prizes = e_prizes_grad.detach().clone()
+        # print('e_prizes:')
+        # print(e_prizes)
         topk_e = min(topk_e, e_prizes.unique().size(0))
 
         topk_e_values, _ = torch.topk(e_prizes.unique(), topk_e, largest=True)
@@ -119,4 +119,4 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
     edge_index = torch.LongTensor([src, dst])
     data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, num_nodes=len(selected_nodes))
 
-    return data, desc, n_prizes_grad, e_prizes_grad, mapping
+    return data, desc
