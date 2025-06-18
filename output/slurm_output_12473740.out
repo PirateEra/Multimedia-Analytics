@@ -1,0 +1,44 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Loading LLAMA
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:11<00:11, 11.18s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  5.48s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  6.34s/it]
+Freezing LLAMA!
+Finish loading LLAMA!
+inherit model weights from sentence-transformers/all-roberta-large-v1
+Model and datasets loaded successfully
+ * Serving Flask app 'api_retriever'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+/home/scur0288/.conda/envs/g_retriever/bin/python: can't find '__main__' module in '/gpfs/home2/scur0288/Multimedia-Analytics/api'
+srun: error: gcn33: task 0: Exited with exit code 1
+srun: Terminating StepId=12473740.0
+
+JOB STATISTICS
+==============
+Job ID: 12473740
+Cluster: snellius
+User/Group: scur0288/scur0288
+State: FAILED (exit code 1)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:24
+CPU Efficiency: 2.42% of 00:16:30 core-walltime
+Job Wall-clock time: 00:00:55
+Memory Utilized: 645.68 MB
+Memory Efficiency: 0.53% of 120.00 GB (120.00 GB/node)

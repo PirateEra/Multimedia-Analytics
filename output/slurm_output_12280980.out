@@ -1,38 +1,0 @@
-============================================================================================== 
-Warning! Mixing Conda and module environments may lead to corruption of the
-user environment. 
-We do not recommend users mixing those two environments unless absolutely
-necessary. Note that 
-SURF does not provide any support for Conda environment.
-For more information, please refer to our software policy page:
-https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
-
-Remember that many packages have already been installed on the system and can
-be loaded using 
-the 'module load <package__name>' command. If you are uncertain if a package is
-already available 
-on the system, please use 'module avail' or 'module spider' to search for it.
-============================================================================================== 
-Loaded config for model graph_llm on dataset expla_graphs
-Loading LLAMA
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.93s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.00s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.29s/it]
-Freezing LLAMA!
-Finish loading LLAMA!
-{'id': 0, 'label': 'support', 'desc': 'node_id,node_attr\n0,cannabis\n1,marijuana\n2,legal\n3,more available\n4,good thing\n\nsrc,edge_attr,dst\n0,synonym of,1\n2,causes,3\n1,capable of,4\n4,desires,2\n', 'graph': Data(x=[5, 1024], edge_index=[2, 4], edge_attr=[4, 1024], num_nodes=5), 'question': "Argument 1: Cannabis should be legal.\nArgument 2: It's not a bad thing to make marijuana more available.\nQuestion: Do argument 1 and argument 2 support or counter each other? Answer in one word in the form of 'support' or 'counter'.\n\nAnswer:"}
-→  Sure! Here are the arguments and whether they support or counter each other:
-
-Argument 1: The benefits of AI outweigh the ris
-
-JOB STATISTICS
-==============
-Job ID: 12280980
-Cluster: snellius
-User/Group: scur0288/scur0288
-State: COMPLETED (exit code 0)
-Nodes: 1
-Cores per node: 9
-CPU Utilized: 00:00:19
-CPU Efficiency: 7.54% of 00:04:12 core-walltime
-Job Wall-clock time: 00:00:28
-Memory Utilized: 1.46 MB
-Memory Efficiency: 0.00% of 60.00 GB (60.00 GB/node)

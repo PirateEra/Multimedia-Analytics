@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --job-name=RunSample
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=9
+#SBATCH --time=00:20:00
+#SBATCH --output=output/slurm_output_%A.out
+
+# Load modules
+module purge
+module load 2023
+module load Anaconda3/2023.07-2
+
+# Initialize Conda in batch mode
+source ~/.bashrc  # OR the full init path (see note below)
+source activate g_retriever
+
+export CUDA_VISIBLE_DEVICES=0
+
+# Go to the correct working directory
+cd $HOME/Multimedia-Analytics/g_retriever_m/
+
+srun python api_retriever.py

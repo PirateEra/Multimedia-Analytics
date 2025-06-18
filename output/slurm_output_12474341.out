@@ -1,0 +1,68 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Loading LLAMA
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:11<00:11, 11.30s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  5.53s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  6.40s/it]
+Freezing LLAMA!
+Finish loading LLAMA!
+inherit model weights from sentence-transformers/all-roberta-large-v1
+Model and datasets loaded successfully.
+ * Serving Flask app 'retriever'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://145.136.62.6:5000
+[33mPress CTRL+C to quit[0m
+[2025-06-18 14:21:50,726] ERROR in app: Exception on /process_query [POST]
+Traceback (most recent call last):
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/api/api_retriever.py", line 37, in handle_process_query
+    result = process_query(query, dataset, model, graph_idx, embedders, dataset_name)
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/api/api_utils.py", line 67, in process_query
+    topk=3, topk_e=5 if "webqsp" in dataset else 3, cost_e=0.5)
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/api/src/dataset/webqsp.py", line 36, in __getitem__
+    graph = torch.load(f'{cached_graph}/{index}.pt')
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'dataset/webqsp/cached_graphs/3.pt'
+145.136.63.192 - - [18/Jun/2025 14:21:50] "[35m[1mPOST /process_query?dataset=webqsp&graph=0&query=Where+was+Einstein+born? HTTP/1.1[0m" 500 -
+slurmstepd: error: *** JOB 12474341 ON gcn6 CANCELLED AT 2025-06-18T14:24:00 ***
+slurmstepd: error: *** STEP 12474341.0 ON gcn6 CANCELLED AT 2025-06-18T14:24:00 ***
+
+JOB STATISTICS
+==============
+Job ID: 12474341
+Cluster: snellius
+User/Group: scur0288/scur0288
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:24
+CPU Efficiency: 0.62% of 01:04:12 core-walltime
+Job Wall-clock time: 00:03:34
+Memory Utilized: 1.14 GB
+Memory Efficiency: 0.95% of 120.00 GB (120.00 GB/node)

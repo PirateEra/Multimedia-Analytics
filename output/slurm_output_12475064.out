@@ -1,0 +1,78 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Loading LLAMA
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:11<00:11, 11.36s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:15<00:00,  6.95s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:15<00:00,  7.61s/it]
+Freezing LLAMA!
+Finish loading LLAMA!
+inherit model weights from sentence-transformers/all-roberta-large-v1
+Model and datasets loaded successfully.
+ * Serving Flask app 'retriever'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://145.136.62.40:5000
+[33mPress CTRL+C to quit[0m
+145.136.63.192 - - [18/Jun/2025 14:42:11] "[31m[1mPOST /process_query?dataset=expla_graph&graph=0&query=Where+was+Einstein+born? HTTP/1.1[0m" 400 -
+[2025-06-18 14:42:34,902] ERROR in app: Exception on /process_query [POST]
+Traceback (most recent call last):
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/g_retriever_m/api_retriever.py", line 37, in handle_process_query
+    result = process_query(query, dataset, model, graph_idx, embedders, dataset_name)
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/g_retriever_m/api_utils.py", line 52, in process_query
+    graph = torch.load(f"{dataset_module.path_graphs}/{graph_id}.pt")
+AttributeError: module 'src.dataset.expla_graphs' has no attribute 'path_graphs'
+145.136.63.192 - - [18/Jun/2025 14:42:34] "[35m[1mPOST /process_query?dataset=expla_graphs&graph=0&query=Where+was+Einstein+born? HTTP/1.1[0m" 500 -
+[2025-06-18 14:50:04,887] ERROR in app: Exception on /process_query [POST]
+Traceback (most recent call last):
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/scur0288/.conda/envs/g_retriever/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/g_retriever_m/api_retriever.py", line 37, in handle_process_query
+    result = process_query(query, dataset, model, graph_idx, embedders, dataset_name)
+  File "/gpfs/home2/scur0288/Multimedia-Analytics/g_retriever_m/api_utils.py", line 52, in process_query
+    graph = torch.load(f"{dataset_module.path_graphs}/{graph_id}.pt")
+AttributeError: module 'src.dataset.expla_graphs' has no attribute 'path_graphs'
+145.136.63.192 - - [18/Jun/2025 14:50:04] "[35m[1mPOST /process_query?dataset=expla_graphs&graph=0&query=Where+was+Einstein+born? HTTP/1.1[0m" 500 -
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 12475064 ON gcn40 CANCELLED AT 2025-06-18T14:52:31 ***
+slurmstepd: error: *** STEP 12475064.0 ON gcn40 CANCELLED AT 2025-06-18T14:52:31 ***
+
+JOB STATISTICS
+==============
+Job ID: 12475064
+Cluster: snellius
+User/Group: scur0288/scur0288
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:27
+CPU Efficiency: 0.20% of 03:40:30 core-walltime
+Job Wall-clock time: 00:12:15
+Memory Utilized: 3.69 GB
+Memory Efficiency: 3.08% of 120.00 GB (120.00 GB/node)

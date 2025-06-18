@@ -32,5 +32,7 @@ pip install \
   gensim \
   scipy==1.12 \
   protobuf \
-  python-dotenv
+  python-dotenv \
+  matplotlib \
+  Flask
 

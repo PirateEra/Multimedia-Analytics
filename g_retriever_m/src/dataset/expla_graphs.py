@@ -5,7 +5,9 @@ from torch.utils.data import Dataset
 
 
 PATH = 'dataset/expla_graphs'
-
+path_nodes = f'{PATH}/nodes'
+path_edges = f'{PATH}/edges'
+path_graphs = f'{PATH}/graphs'
 
 class ExplaGraphsDataset(Dataset):
     def __init__(self):

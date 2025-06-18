@@ -64,7 +64,7 @@ from dotenv import load_dotenv
 # from torch_geometric.explain import Explanation
 import networkx as nx
 from torch_geometric.utils import to_networkx
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 def main(args):
@@ -77,8 +77,8 @@ def main(args):
     args.llm_model_path = llama_model_path[args.llm_model_name]
 
     model = load_model[args.model_name](
-        graph=dataset.graph,
-        graph_type=dataset.graph_type,
+        # graph=dataset.graph,
+        # graph_type=dataset.graph_type,
         args=args
     )
     model.eval()
@@ -94,9 +94,10 @@ def main(args):
     # Load dataset module for access to path constants
     dataset_module = importlib.import_module(f"src.dataset.{args.dataset}")
 
+    print('TEST')
     # Load embedding model used during preprocessing
-    emb_model, emb_tokenizer, emb_device = load_embed_model[dataset_module.model_name]()
-    text2embedding = load_text2embedding[dataset_module.model_name]
+    emb_model, emb_tokenizer, emb_device = load_embed_model["sbert"]()
+    text2embedding = load_text2embedding["sbert"]
 
     # Determine which graph to use
     idx = args.sample_idx
@@ -156,6 +157,6 @@ if __name__ == "__main__":
     # plt.show
     # subgraph_visualization = to_networkx(subg, to_undirected=True)
     subgraph_visualization = to_networkx(sample_0['graph'], to_undirected=True)
-    nx.draw(subgraph_visualization)
-    plt.savefig("test_subg_img1.png")
+    # nx.draw(subgraph_visualization)
+    # plt.savefig("test_subg_img1.png")
     torch.cuda.empty_cache()

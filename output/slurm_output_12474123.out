@@ -1,0 +1,46 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+ * Serving Flask app 'retriever'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 441-363-492
+ * Detected change in '/gpfs/home2/scur0288/Multimedia-Analytics/api/api_utils.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 441-363-492
+ * Detected change in '/gpfs/home2/scur0288/Multimedia-Analytics/api/api_retriever.py', reloading
+ * Restarting with stat
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 12474123 ON gcn28 CANCELLED AT 2025-06-18T14:11:29 ***
+slurmstepd: error: *** STEP 12474123.0 ON gcn28 CANCELLED AT 2025-06-18T14:11:29 ***
+
+JOB STATISTICS
+==============
+Job ID: 12474123
+Cluster: snellius
+User/Group: scur0288/scur0288
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:30
+CPU Efficiency: 2.03% of 00:24:36 core-walltime
+Job Wall-clock time: 00:01:22
+Memory Utilized: 768.53 MB
+Memory Efficiency: 0.63% of 120.00 GB (120.00 GB/node)
