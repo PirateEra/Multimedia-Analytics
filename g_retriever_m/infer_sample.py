@@ -141,6 +141,7 @@ def main(args):
         print(f"→ {pred}")
 
     print(dataset[0])
+    print(sample)
     return subg, pred
 
 
