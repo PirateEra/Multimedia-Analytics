@@ -30,68 +30,68 @@ class GraphLLM(torch.nn.Module):
         self.max_txt_len = args.max_txt_len
         self.max_new_tokens = args.max_new_tokens
 
-        print('Loading LLAMA')
-        kwargs = {
-            "max_memory": {0: '80GiB', 1: '80GiB'},
-            "device_map": {"" : 0},
-            "revision": "main",
-        }
+        # print('Loading LLAMA')
+        # kwargs = {
+        #     "max_memory": {0: '80GiB', 1: '80GiB'},
+        #     "device_map": {"" : 0},
+        #     "revision": "main",
+        # }
 
-        self.tokenizer = AutoTokenizer.from_pretrained(args.llm_model_path, use_fast=False, revision=kwargs["revision"], token=os.getenv("HF_TOKEN"))
-        self.tokenizer.pad_token_id = 0
-        self.tokenizer.padding_side = 'left'
+        # self.tokenizer = AutoTokenizer.from_pretrained(args.llm_model_path, use_fast=False, revision=kwargs["revision"], token=os.getenv("HF_TOKEN"))
+        # self.tokenizer.pad_token_id = 0
+        # self.tokenizer.padding_side = 'left'
 
-        model = AutoModelForCausalLM.from_pretrained(
-            args.llm_model_path,
-            torch_dtype=torch.float16,
-            low_cpu_mem_usage=True,
-            token=os.getenv("HF_TOKEN"),
-            **kwargs
-        )
+        # model = AutoModelForCausalLM.from_pretrained(
+        #     args.llm_model_path,
+        #     torch_dtype=torch.float16,
+        #     low_cpu_mem_usage=True,
+        #     token=os.getenv("HF_TOKEN"),
+        #     **kwargs
+        # )
 
-        if args.llm_frozen == 'True':
-            print("Freezing LLAMA!")
-            for name, param in model.named_parameters():
-                param.requires_grad = False
-        else:
-            print("Training LLAMA with LORA!")
-            model = prepare_model_for_kbit_training(model)
-            lora_r: int = 8
-            lora_alpha: int = 16
-            lora_dropout: float = 0.05
-            lora_target_modules = [
-                "q_proj",
-                "v_proj",
-            ]
-            config = LoraConfig(
-                r=lora_r,
-                lora_alpha=lora_alpha,
-                target_modules=lora_target_modules,
-                lora_dropout=lora_dropout,
-                bias="none",
-                task_type="CAUSAL_LM",
-            )
-            model = get_peft_model(model, config)
+        # if args.llm_frozen == 'True':
+        #     print("Freezing LLAMA!")
+        #     for name, param in model.named_parameters():
+        #         param.requires_grad = False
+        # else:
+        #     print("Training LLAMA with LORA!")
+        #     model = prepare_model_for_kbit_training(model)
+        #     lora_r: int = 8
+        #     lora_alpha: int = 16
+        #     lora_dropout: float = 0.05
+        #     lora_target_modules = [
+        #         "q_proj",
+        #         "v_proj",
+        #     ]
+        #     config = LoraConfig(
+        #         r=lora_r,
+        #         lora_alpha=lora_alpha,
+        #         target_modules=lora_target_modules,
+        #         lora_dropout=lora_dropout,
+        #         bias="none",
+        #         task_type="CAUSAL_LM",
+        #     )
+        #     model = get_peft_model(model, config)
 
-        self.model = model
-        print('Finish loading LLAMA!')
+        self.model = None
+        # print('Finish loading LLAMA!')
 
-        self.graph_encoder = load_gnn_model[args.gnn_model_name](
-            in_channels=args.gnn_in_dim,
-            out_channels=args.gnn_hidden_dim,
-            hidden_channels=args.gnn_hidden_dim,
-            num_layers=args.gnn_num_layers,
-            dropout=args.gnn_dropout,
-            num_heads=args.gnn_num_heads,
-        ).to(self.model.device)
+        # self.graph_encoder = load_gnn_model[args.gnn_model_name](
+        #     in_channels=args.gnn_in_dim,
+        #     out_channels=args.gnn_hidden_dim,
+        #     hidden_channels=args.gnn_hidden_dim,
+        #     num_layers=args.gnn_num_layers,
+        #     dropout=args.gnn_dropout,
+        #     num_heads=args.gnn_num_heads,
+        # ).to(self.model.device)
 
-        self.projector = nn.Sequential(
-            nn.Linear(args.gnn_hidden_dim, 2048),
-            nn.Sigmoid(),
-            nn.Linear(2048, 4096),
-        ).to(self.model.device)
+        # self.projector = nn.Sequential(
+        #     nn.Linear(args.gnn_hidden_dim, 2048),
+        #     nn.Sigmoid(),
+        #     nn.Linear(2048, 4096),
+        # ).to(self.model.device)
 
-        self.word_embedding = self.model.model.get_input_embeddings()
+        # self.word_embedding = self.model.model.get_input_embeddings()
 
     @property
     def device(self):
@@ -174,10 +174,12 @@ class GraphLLM(torch.nn.Module):
 
     def inference(self, samples):
 
+        print("inference: encoding description and questions...")
         # encode description and questions
         questions = self.tokenizer(samples["question"], add_special_tokens=False)
         descriptions = self.tokenizer(samples["desc"], add_special_tokens=False)
 
+        print("inference: encoding special tokens...")
         # encode special tokens
         eos_user_tokens = self.tokenizer(EOS_USER, add_special_tokens=False)
         bos_token = self.tokenizer(BOS, add_special_tokens=False, return_tensors='pt').input_ids[0].to(self.device)
@@ -185,7 +187,7 @@ class GraphLLM(torch.nn.Module):
         pad_token = torch.tensor(self.tokenizer.pad_token_id).to(self.device)
         pad_embeds = self.word_embedding(pad_token).unsqueeze(0)
 
-
+        print("inference: encoding graphs...")
         # encode graphs
         graph_embeds = self.encode_graphs(samples)
         graph_embeds = self.projector(graph_embeds)
@@ -193,6 +195,7 @@ class GraphLLM(torch.nn.Module):
         batch_size = len(samples['id'])
         batch_inputs_embeds = []
         batch_attention_mask = []
+        print("inference: Handling batch, adding bos and eos tokens...")
         for i in range(batch_size):
             # Add bos & eos token
             input_ids = descriptions.input_ids[i][:self.max_txt_len] + questions.input_ids[i] + eos_user_tokens.input_ids
@@ -202,6 +205,7 @@ class GraphLLM(torch.nn.Module):
             batch_attention_mask.append([1] * inputs_embeds.shape[0])
 
         # pad inputs_embeds
+        print("inference: padding embeddings...")
         max_length = max([x.shape[0] for x in batch_inputs_embeds])
         for i in range(batch_size):
             pad_length = max_length-batch_inputs_embeds[i].shape[0]
@@ -211,6 +215,8 @@ class GraphLLM(torch.nn.Module):
         inputs_embeds = torch.stack(batch_inputs_embeds, dim=0).to(self.model.device)
         attention_mask = torch.tensor(batch_attention_mask).to(self.model.device)
 
+        print("inference: generating prediction..")
+        print("The max tokens are ", self.max_new_tokens)
         with self.maybe_autocast():
             outputs = self.model.generate(
                 inputs_embeds=inputs_embeds,
@@ -220,6 +226,8 @@ class GraphLLM(torch.nn.Module):
                 use_cache=True  # IMPORTANT!
             )
         pred = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+
+        print("inference: done!")
 
         return {'id': samples['id'],
                 'pred': pred,

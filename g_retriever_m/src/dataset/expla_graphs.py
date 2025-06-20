@@ -6,6 +6,15 @@ from torch.utils.data import Dataset
 
 PATH = 'dataset/expla_graphs'
 
+model_name = 'sbert'
+path_nodes = f'{PATH}/nodes'
+path_edges = f'{PATH}/edges'
+path_graphs = f'{PATH}/graphs'
+
+cached_graph = f'{PATH}/cached_graphs'
+cached_desc = f'{PATH}/cached_desc'
+
+
 
 class ExplaGraphsDataset(Dataset):
     def __init__(self):

@@ -58,7 +58,7 @@ cd $HOME/Multimedia-Analytics/g_retriever_m/
 #     --max_txt_len 0 \
 #     --seed $seed
 
-QUERY="What is the name of justim bieber brother?"
+QUERY="what is the name of justin bieber brother"
 seed=1
 
 srun python infer_sample.py \
