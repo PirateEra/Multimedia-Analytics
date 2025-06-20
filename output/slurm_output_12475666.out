@@ -50,3 +50,20 @@ Traceback (most recent call last):
     super().__init__(open(name, mode))
 FileNotFoundError: [Errno 2] No such file or directory: 'dataset/webqsp/cached_graphs/3.pt'
 145.136.63.192 - - [18/Jun/2025 14:56:48] "[35m[1mPOST /process_query?dataset=webqsp&graph=0&query=Where+was+Einstein+born? HTTP/1.1[0m" 500 -
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 12475666 ON gcn59 CANCELLED AT 2025-06-18T15:14:46 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 12475666.0 ON gcn59 CANCELLED AT 2025-06-18T15:14:46 DUE TO TIME LIMIT ***
+
+JOB STATISTICS
+==============
+Job ID: 12475666
+Cluster: snellius
+User/Group: scur0288/scur0288
+State: TIMEOUT (exit code 0)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:28
+CPU Efficiency: 0.13% of 06:06:36 core-walltime
+Job Wall-clock time: 00:20:22
+Memory Utilized: 2.69 GB
+Memory Efficiency: 2.24% of 120.00 GB (120.00 GB/node)
