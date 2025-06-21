@@ -56,7 +56,7 @@ def temp_graph_data(subgr, id, list_subgr):
 
 def all_temp_graph(args, list_subgr):
     # obtain list of subgraph data
-    list_subgraphs = {temp_graph_data(subgr, id, list_subgr) for i, subgr in enumerate(list_subgr)}
+    list_subgraphs = [temp_graph_data(subgr, id, list_subgr) for i, subgr in enumerate(list_subgr)]
     # make final dictionary
     final_graph_data = {f"Dataset {args.dataset}": list_subgraphs}
     
