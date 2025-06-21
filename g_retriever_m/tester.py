@@ -1,23 +1,25 @@
 import requests
 
 # URL of your Flask API
-API_URL = "http://145.136.62.59:5000/process_query"
+API_URL = "http://145.136.62.2:5000/infer"
 
-# Parameters for the query
-params = {
-    "dataset": "webqsp",              # Change this to your dataset name
-    "graph": 0,                       # Change this to the graph index
-    "query": "Where was Einstein born?"  # Your natural language query
+# JSON body with inference parameters
+payload = {
+    "dataset": "webqsp",                     # The dataset to use
+    "sample_idx": 0,                         # The graph/sample index
+    "query": "Who is Justin Bieber Brother"      # Your natural language query
 }
 
-# Send the POST request
-response = requests.post(API_URL, params=params)
+# Send the POST request with JSON data
+response = requests.post(API_URL, json=payload)
 
 # Handle the response
 if response.status_code == 200:
-    print("Success!")
+    print("✅ Success!")
     result = response.json()
-    print(result)
+    print("Prediction:", result["prediction"])
+    print("\nPrompt:", result["prompt"])
+    print("\nJaccard Info:", result.get("jaccard_info"))
 else:
-    print("Error", response.status_code)
+    print("❌ Error", response.status_code)
     print(response.text)

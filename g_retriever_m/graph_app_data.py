@@ -28,9 +28,12 @@ def full_graph_data(args):
     return graph_data
 
 
-def temp_graph_data(subgr, id, list_subgr):
+def temp_graph_data(subgr, id="main", list_subgr=None):
     # obtain the description of the subgraph
-    desc = list_subgr[subgr][1]
+    if list_subgr:
+        desc = list_subgr[subgr][1]
+    else:
+        desc = subgr
     # split the description into node desc and edge desc
     node_part, edge_part = desc.split("\n\n", 1)
     
@@ -52,7 +55,6 @@ def temp_graph_data(subgr, id, list_subgr):
     graph_data = {f"Subgraph {id}": {"nodes": node_data, "edges": edge_data}}
 
     return graph_data
-
 
 def all_temp_graph(args, list_subgr):
     # obtain list of subgraph data

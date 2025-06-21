@@ -14,7 +14,7 @@ def parse_args_llama():
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--jaccard", type=bool, default=True)
 
-    parser.add_argument("--dataset", type=str, default='expla_graphs')
+    parser.add_argument("--dataset", type=str, default='webqsp')
     parser.add_argument("--lr", type=float, default=1e-5)
     parser.add_argument("--wd", type=float, default=0.05)
     parser.add_argument("--patience", type=float, default=2)
@@ -31,7 +31,7 @@ def parse_args_llama():
     parser.add_argument("--eval_batch_size", type=int, default=16)
 
     # LLM related
-    parser.add_argument("--llm_model_name", type=str, default='7b')
+    parser.add_argument("--llm_model_name", type=str, default='7b_chat')
     parser.add_argument("--llm_model_path", type=str, default='')
     parser.add_argument("--llm_frozen", type=str, default='True')
     parser.add_argument("--llm_num_virtual_tokens", type=int, default=10)
