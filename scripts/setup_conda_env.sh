@@ -34,5 +34,6 @@ pip install \
   protobuf \
   python-dotenv \
   matplotlib \
-  Flask
+  Flask \
+  ollama
 

@@ -29,5 +29,5 @@ cd $HOME/Multimedia-Analytics/g_retriever_m/
 # srun python -m src.dataset.scene_graphs
 
 # # webqsp
-srun python -m src.dataset.preprocess.webqsp
-srun python -m src.dataset.webqsp
+# srun python -m src.dataset.preprocess.webqsp
+# srun python -m src.dataset.webqsp
