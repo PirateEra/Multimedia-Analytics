@@ -71,12 +71,16 @@ def infer():
     else:
         jaccard_info = None # if we do not compute it, we return None
 
-    # return jsonify({"success": sub_graph}), 201
+    whole_graph = full_graph_data(args)
+    subgraphs = all_temp_graph(args, jaccard_info)
+
     return jsonify({
         "desc": sub_graph_info,
         "prompt": prompt,
         "response": response,
         "jaccard_info": jaccard_info,
+        "whole_graph": whole_graph,
+        "subgraphs": subgraphs, 
     }), 201
 
     # except Exception as e:
