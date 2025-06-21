@@ -12,10 +12,10 @@ from src.utils.collate import collate_fn
 from dotenv import load_dotenv
 import networkx as nx
 from torch_geometric.utils import to_networkx
-import matplotlib.pyplot as plt
 from pprint import pprint
 import ollama
 from itertools import combinations
+from graph_app_data import full_graph_data, all_temp_graph
 
 def multiple_queries(query):
     words = query.split()
@@ -177,4 +177,8 @@ if __name__ == "__main__":
     load_dotenv()
     subg, pred, prompt, jaccard_info = infer_sample(args)
     # pprint(jaccard_info)
+    whole_graph = full_graph_data(args)
+    print(whole_graph)
+    subgraphs = all_temp_graph(args, jaccard_info)
+    print(subgraphs)
     torch.cuda.empty_cache()
