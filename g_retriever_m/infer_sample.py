@@ -16,8 +16,11 @@ from pprint import pprint
 import ollama
 from itertools import combinations
 from graph_app_data import full_graph_data, all_temp_graph
+import nltk
 
-def multiple_queries(query):
+
+
+def multiple_queries_unigram(query):
     words = query.split()
     result = {}
     for i in range(len(words)):
@@ -27,6 +30,54 @@ def multiple_queries(query):
 
     return result
 
+def multiple_queries(query: str, n: int = 2) -> dict:
+    words = query.strip().split()
+    variants = {}
+
+    # Split into non-overlapping n-grams
+    chunks = [words[i:i+n] for i in range(0, len(words), n)]
+
+    for i, chunk in enumerate(chunks):
+        removed_ngram = " ".join(chunk)
+        # Reconstruct query without this chunk
+        remaining_chunks = chunks[:i] + chunks[i+1:]
+        remaining_words = [word for group in remaining_chunks for word in group]
+        modified_query = " ".join(remaining_words)
+        variants[removed_ngram] = modified_query
+
+    return variants
+
+def multiple_queries_clauses(query: str) -> dict:
+    """
+    Naively splits the sentence into larger syntactic chunks (like clauses or phrases).
+    Removes each and returns modified queries.
+    """
+    words = nltk.word_tokenize(query)
+    tagged = nltk.pos_tag(words)
+
+    # Define chunking grammar: NP = noun phrase, VP = verb phrase, PP = prepositional phrase
+    grammar = r"""
+        NP: {<DT>?<JJ.*>*<NN.*>+}       # Noun phrase
+        VP: {<VB.*><RB>?<PRP>?<VB.*>?}  # Verb phrase
+        PP: {<IN><NP>}                  # Prepositional phrase
+    """
+    chunk_parser = nltk.RegexpParser(grammar)
+    tree = chunk_parser.parse(tagged)
+
+    # Extract chunked phrases
+    phrases = []
+    for subtree in tree:
+        if isinstance(subtree, nltk.Tree):  # it's a chunk
+            phrase = " ".join([token for token, _ in subtree.leaves()])
+            phrases.append(phrase)
+
+    # Build variants
+    variants = {}
+    for phrase in phrases:
+        modified = query.replace(phrase, "").replace("  ", " ").strip()
+        variants[phrase] = modified
+
+    return variants
 
 def jaccard_similarity(graph_1, graph_2):
     # Get needed information

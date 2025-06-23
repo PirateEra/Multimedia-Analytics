@@ -35,5 +35,6 @@ pip install \
   python-dotenv \
   matplotlib \
   Flask \
-  ollama
+  ollama \
+
 

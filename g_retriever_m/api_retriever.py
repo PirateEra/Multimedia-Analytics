@@ -11,6 +11,8 @@ from src.utils.collate import collate_fn
 from graph_app_data import full_graph_data, all_temp_graph, temp_graph_data
 from infer_sample import (
     multiple_queries,
+    multiple_queries_unigram,
+    multiple_queries_clauses,
     jaccard_similarity,
     format_edges_for_prompt,
     get_subgraph,
@@ -20,6 +22,14 @@ import importlib
 import logging
 import subprocess
 import sys
+import nltk
+
+# This checks if it's downloaded; only downloads if missing
+nltk.download('punkt', quiet=True)
+nltk.download('averaged_perceptron_tagger', quiet=True)
+nltk.download('punkt_tab', quiet=True)
+nltk.download('averaged_perceptron_tagger', quiet=True)
+nltk.download('averaged_perceptron_tagger_eng', quiet=True)
 
 
 
@@ -55,7 +65,7 @@ def infer():
     sub_graph_info = temp_graph_data(sub_graph_desc)
 
     if args.jaccard:
-        query_combinations = multiple_queries(args.query)
+        query_combinations = multiple_queries_clauses(args.query)
         jaccard_info = {}
         for word, temp_query in query_combinations.items():
             temp_graph, desc = get_subgraph(args, 
@@ -67,7 +77,7 @@ def infer():
                                 text2embedding)
             # Dictionairy of key being the missing word, and the value a tuple of the similarity value and subgraph
             similarity = jaccard_similarity(sub_graph, temp_graph)
-            jaccard_info[word] = (similarity, desc)
+            jaccard_info[word] = (1 - similarity, desc) # Invert the score by doing 1 - similarity
     else:
         jaccard_info = None # if we do not compute it, we return None
 
@@ -80,7 +90,7 @@ def infer():
         "response": response,
         "jaccard_info": jaccard_info,
         "whole_graph": whole_graph,
-        "subgraphs": subgraphs, 
+        "subgraphs": subgraphs
     }), 201
 
     # except Exception as e:
