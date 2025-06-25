@@ -32,6 +32,13 @@ ollama pull llama3:8b
 
 This will download the correct LLM (e.g., Llama 3 8B) for use by the application.
 
+### Get Hugging Face Access Token
+
+1. Generate an access token: https://huggingface.co/docs/hub/en/security-tokens.
+2. Add your token to the code file /g_retriever_m/.env as follows:
+```bash
+HF_TOKEN=YOUR_TOKEN
+```
 
 ## Running the Demo App
 
