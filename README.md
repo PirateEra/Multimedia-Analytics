@@ -17,7 +17,7 @@ You can then run any of the scripts within the `g_retriever_m` folder.
 
 The application relies on Ollama for LLM inference.
 
-**Install Ollama:**
+1. **Install Ollama:**
    Run the provided installation script:
 
 ```bash
