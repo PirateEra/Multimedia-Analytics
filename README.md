@@ -27,10 +27,10 @@ bash scripts/get_ollama.sh
 2. **Download the required LLM model:**
 
 ```bash
-ollama pull llama3:8b
+ollama pull llama3.2🥉b
 ```
 
-This will download the correct LLM (e.g., Llama 3 8B) for use by the application.
+This will download the correct LLM (Llama 3.2 3B) for use by the application.
 
 ### Get Hugging Face Access Token
 
