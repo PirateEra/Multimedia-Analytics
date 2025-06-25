@@ -1,8 +1,7 @@
 # Load required modules
-module load 2023
-module load Anaconda3/2023.07-2
-
 # Remove any existing environment (optional safety check)
+set -e
+
 conda remove --name g_retriever --all -y
 
 # Create a new environment with Python 3.9
@@ -35,5 +34,9 @@ pip install \
   python-dotenv \
   matplotlib \
   Flask \
-  ollama
+  ollama \
+  dash \
+  dash-cytoscape \
+  nltk \
+  diskcache \
 
