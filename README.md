@@ -52,14 +52,14 @@ This starts the main application interface.
 
 ## Dataset Setup
 
-To use the application, download the **WebQSP** dataset from the following link:
+To use the application, download the **dataset** folder from the following link:
 
-🔗 [Download WebQSP Dataset](https://drive.google.com/file/d/1REhbLnyeGKJ_NbaHQ4imuv20-0j5ZX6R/view?usp=sharing)
+🔗 [Download WebQSP Dataset](https://drive.google.com/file/d/1Y2qV_N5epb84TydAEV3PovyNntrBeHHy/view?usp=sharing)
 
-Then, place the dataset into the following folder structure:
+Then, place the dataset into the following folder structure (note when cloning the repository, the old `g_retriever_m/dataset/' folder is still incomplete. Therefore, the downloaded dataset folder should replace the old one.):
 
 ```
-g_retriever_m/dataset/webqsp/
+g_retriever_m/dataset/
 ```
 
 Make sure the contents of the dataset are directly inside the `webqsp` folder.
