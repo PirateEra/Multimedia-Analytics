@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
-
+model_name = 'sbert'
 PATH = 'dataset/expla_graphs'
 path_nodes = f'{PATH}/nodes'
 path_edges = f'{PATH}/edges'
