@@ -27,7 +27,7 @@ bash scripts/get_ollama.sh
 2. **Download the required LLM model:**
 
 ```bash
-ollama pull llama3.2🥉b
+ollama pull llama3.2:3b
 ```
 
 This will download the correct LLM (Llama 3.2 3B) for use by the application.
