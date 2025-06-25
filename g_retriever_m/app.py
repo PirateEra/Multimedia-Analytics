@@ -36,92 +36,97 @@ app = Dash(__name__)
 #######
 def get_styles():
     styles = []
-    # Style of all nodes
+    #----
+    # main graph
+    #---
     styles.append({
         'selector': '.basic-node',
         'style': {
             'label': 'data(label)',
-            'background-color': '#888',
-            'width': 60,
-            'height': 60,
+            'background-color': '#4a90e2',
+            'width': 50,
+            'height': 50,
             'font-size': 12,
-            'color': '#fff',
-            'text-valign': 'center',
-            'text-halign': 'center',
-            'opacity': 1.0,
-            'border-width': 1,
-            'border-color': '#333'
-        }
-    })
-    # Style of subgraph nodes
-    styles.append({
-        'selector': '.subgraph-node',
-        'style': {
-            'label': 'data(label)',
-            'background-color': '#FF5722',
-            'width': 80,
-            'height': 80,
-            'font-size': 16,
-            'font-weight': 'bold',
             'color': '#ffffff',
             'text-valign': 'center',
             'text-halign': 'center',
-            'opacity': 1.0,
-            'border-width': 4,
-            'border-color': '#FFD700',
-            'shadow-blur': 12,
-            'shadow-color': '#555',
-            'shadow-offset-x': 0,
-            'shadow-offset-y': 0,
-            'text-outline-color': '#000',
-            'text-outline-width': 2
+            'border-width': 1,
+            'border-color': '#2c3e50',
+            'text-outline-color': '#4a90e2',
+            'text-outline-width': 1,
         }
     })
-    # The style of all edges (includes the label above the edge)
+
     styles.append({
         'selector': '.basic-edge',
         'style': {
             'label': 'data(label)',
             'curve-style': 'bezier',
             'target-arrow-shape': 'triangle',
-            'arrow-scale': 1.2,
-            'width': 2,
+            'arrow-scale': 1,
+            'width': 1.5,
             'line-color': '#999',
             'target-arrow-color': '#999',
             'font-size': 10,
-            'color': '#333',
+            'color': '#555',
             'text-rotation': 'autorotate',
-            'text-margin-y': -10,
-            'text-background-color': '#fff',
-            'text-background-opacity': 0.8,
+            'text-margin-y': -8,
+            'text-background-color': '#ffffff',
+            'text-background-opacity': 0.85,
             'text-background-padding': '2px',
-            'text-background-shape': 'roundrectangle'
+            'text-background-shape': 'roundrectangle',
         }
     })
-    # Style of subgraph edges
+
+    #---
+    # Subgraph
+    #---
+    styles.append({
+        'selector': '.subgraph-node',
+        'style': {
+            'label': 'data(label)',
+            'background-color': '#f9a825',
+            'width': 75,
+            'height': 75,
+            'font-size': 15,
+            'font-weight': 'bold',
+            'color': '#212121',
+            'text-valign': 'center',
+            'text-halign': 'center',
+            'border-width': 4,
+            'border-color': '#f57f17',
+            'text-outline-color': '#fff9c4',
+            'text-outline-width': 2,
+        }
+    })
+
     styles.append({
         'selector': '.subgraph-edge',
         'style': {
             'label': 'data(label)',
             'curve-style': 'bezier',
             'target-arrow-shape': 'triangle',
-            'arrow-scale': 1.5,
-            'width': 4,
-            'line-color': '#FF5722',
-            'target-arrow-color': '#FF5722',
-            'font-size': 12,
+            'arrow-scale': 1.4,
+            'width': 3,
+            'line-color': '#f9a825',
+            'target-arrow-color': '#f9a825',
+            'font-size': 11,
             'font-weight': 'bold',
-            'color': '#000',
+            'color': '#1a1a1a',
             'text-rotation': 'autorotate',
             'text-margin-y': -10,
-            'text-background-color': '#FFD700',
-            'text-background-opacity': 0.9,
+            'text-background-color': '#fffde7',
+            'text-background-opacity': 0.95,
             'text-background-padding': '3px',
             'text-background-shape': 'roundrectangle',
             'opacity': 1.0
         }
     })
+
+
+
     return styles
+
 
 #######
 ## App layout defining (the actual element creation)
@@ -139,6 +144,9 @@ app.layout = html.Div([
     dcc.Store(id="query-wipe-data-select", data=False),
     dcc.Store(id="query-wipe-graph-select", data=False),
     html.Div([
+        #----
+        # All selection dropdowns
+        #----
         html.H3("Dataset"),
         dcc.Dropdown(
             id='dataset-selector',
@@ -175,7 +183,7 @@ app.layout = html.Div([
 
         dcc.Checklist(
             id='compute-jaccard',
-            options=[{'label': 'Compute jaccard values', 'value': 'enabled'}],
+            options=[{'label': 'Compute significance scores', 'value': 'enabled'}],
             value=[]
         ),
 
@@ -205,7 +213,25 @@ app.layout = html.Div([
     #######
     html.Div([
         html.Div([
-            html.H3("Graph Viewer"),
+            #----
+            # Graph viewer title and checkbox
+            #----
+            html.Div(
+                style={'display': 'flex', 'alignItems': 'center', 'gap': '10px'},
+                children=[
+                    html.H3("Graph Viewer"),
+                    dcc.Checklist(
+                        options=[{'label': 'Show Subgraph Only', 'value': 'enabled'}],
+                        value=[],
+                        id='show-subgraph-only',
+                        inputStyle={"margin-left": "10px"}
+                    ),
+                ]
+            ),
+
+            #----
+            # graph visualisation
+            #----
             cyto.Cytoscape(
                 id='cytoscape-graph',
                 layout={
@@ -218,7 +244,9 @@ app.layout = html.Div([
                 style={'width': '100%', 'height': '400px'}
             ),
 
-            # Non-resizable textarea with scroll
+            #----
+            # Node info
+            #----
             html.H4("Node-Info"),
             dcc.Textarea(
                 id='node-info-text-area',
@@ -242,6 +270,9 @@ app.layout = html.Div([
 
 
         html.Div([
+            #----
+            # Entire query output section (right hand side of the page)
+            #----
             html.H4("Query Output"),
             html.Div(
                 style={
@@ -253,7 +284,9 @@ app.layout = html.Div([
                     'position': 'relative'
                 },
                 children=[
-                    # Spinner positioned in the center
+                    #----
+                    # Loading spinner
+                    #----
                     html.Div(
                         style={
                             'position': 'absolute',
@@ -267,11 +300,16 @@ app.layout = html.Div([
                             children=html.Div(id='trigger-loading', style={'display': 'none'})
                         )
                     ),
-                    # Output shown normally
+                    #----
+                    # Query output box
+                    #----
                     html.Div(id='query-output', style={'position': 'relative', 'zIndex': 0})
                 ]
             ),
 
+            #----
+            # jaccard graph, normally disable due to display none, but dynamically set to display based on input of user
+            #----
             html.Div(
                 id='jaccard-bar-container',
                 style={
@@ -284,7 +322,7 @@ app.layout = html.Div([
                     'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
                 },
                 children=[
-                    html.Div("Jaccard Scores", style={'fontSize': '14px', 'fontWeight': 'bold', 'marginBottom': '5px'}),
+                    html.Div("Significance Scores", style={'fontSize': '14px', 'fontWeight': 'bold', 'marginBottom': '5px'}),
                     dcc.Graph(
                         id='jaccard-bar-chart',
                         config={'displayModeBar': False},
@@ -340,9 +378,11 @@ def update_graph_list(selected_dataset_name):
     State('node-id-slider', 'marks'),
     State('show-self-loops', 'value'),
     Input('jaccard-bar-chart', 'selectedData'),
-    State('jaccard-graph', 'data')
+    State('jaccard-graph', 'data'),
+    Input('show-subgraph-only', 'value'),
+    State('show-subgraph-only', 'value')
 )
-def update_graph(_, data, selected_graph_id, selected_dataset_name, slider_value, min_value, max_value, marks, show_self_loops, jaccard_click_data, jaccard_data):
+def update_graph(_, data, selected_graph_id, selected_dataset_name, slider_value, min_value, max_value, marks, show_self_loops, jaccard_click_data, jaccard_data, subgraph_tick_input, subgraph_tick_value):
     if not selected_graph_id:
         global CURRENT_GRAPH
         selected_graph_id = CURRENT_GRAPH
@@ -369,8 +409,10 @@ def update_graph(_, data, selected_graph_id, selected_dataset_name, slider_value
     if ctx.triggered_id == 'jaccard-bar-chart' and jaccard_click_data != None:
         word = jaccard_click_data["points"][0]["label"]
         source_data = jaccard_data.get(word, {})
+    elif data and data['id'] == selected_graph_id:
+        source_data = data
     else:
-        source_data = data or {}
+        source_data = {}
 
     sub_node_data = pd.DataFrame(source_data.get('nodes_df', []))
     sub_edges_data = pd.DataFrame(source_data.get('edges_df', []))
@@ -388,6 +430,10 @@ def update_graph(_, data, selected_graph_id, selected_dataset_name, slider_value
     valid_nodes = set()
     for i in range(min_node, max_node):
         node_id, label = node_items[i]
+        # Skip any nodes that are not in the sub_graph is we want to view sub_graph only
+        if subgraph_tick_value and int(node_id) not in sub_nodes_set:
+            continue
+        # append the node to the graph
         node_elements.append({
                 "data": {"id": str(node_id), "label": label},
                 "classes": "subgraph-node" if int(node_id) in sub_nodes_set else "basic-node"
@@ -538,7 +584,7 @@ def run_query(n_clicks, query, selected_graph_id, selected_dataset_name, compute
     fig.update_layout(
         margin=dict(l=80, r=10, t=10, b=40),
         yaxis=dict(title=''),
-        xaxis=dict(title='Jaccard Score'),
+        xaxis=dict(title='Significance score'),
         height=300,
         plot_bgcolor='white',
         clickmode='event+select'
@@ -575,7 +621,7 @@ def set_query_output(query_data, _, graph_wipe, node_info_data, current_text, cu
     elif graph_wipe or ctx.triggered_id == "query-wipe-data-select": # if a wipe is needed
         return "", {'display': 'none'}, go.Figure(), {}, ""
     else:
-        return current_text, current_style, current_figure, current_graph_data, current_node_data # just keep what we had if nothing matched
+        return current_text, current_style, current_figure, current_graph_data, "" # just keep what we had if nothing matched
 #######
 ## Callback for showing the node info when clicking on a node
 #######

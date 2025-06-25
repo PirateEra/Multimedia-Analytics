@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body, input, textarea, select, button, label {
+    font-family: 'Roboto', sans-serif;
+    color: #2c3e50;
+}
+
+h3, h4 {
+    font-weight: 700;
+    color: #1a2533;
+}
+
+input, textarea, select {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+    outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #007BFF;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+label {
+    font-weight: 500;
+}
+
+textarea[readonly] {
+    background-color: #f7f7f7 !important;
+    border-color: #ddd !important;
+    color: #555 !important;
+}
+
+#cytoscape-graph {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+
+textarea {
+    scrollbar-width: thin;
+    scrollbar-color: #007BFF #f0f0f0;
+}
+
+textarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+    border-radius: 3px;
+}
+
+.rc-slider-track {
+    background-color: #007BFF !important;
+}
+
+.rc-slider-handle {
+    border: 2px solid #007BFF !important;
+}
