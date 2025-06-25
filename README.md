@@ -1,38 +1,56 @@
-Certainly! Here's a concise intro + your existing run instructions:
+# Multimedia analytics graph querying
 
----
+This repository contains a demo application and supporting tools for retrieving and inferring facts from the WebQSP dataset using a graph-based approach.
 
-# Graph Retriever App
+## Environment setup
 
-This project provides an interactive interface for exploring and retrieving subgraphs from a knowledge graph based on natural language prompts.
-It uses an LLM (via Ollama) to interpret prompts, extract entities, and visualize subgraph relevance.
-
----
-
-## How to Run
-
-1. **Set up the Conda environment:**
+To set up the environment, use the provided `environment.yml` file. This ensures all dependencies are installed:
 
 ```bash
-bash scripts/setup_conda_env.sh
+conda env create -f environment.yml
+conda activate g_retriever_m
 ```
 
-2. **Install Ollama:**
+You can then run any of the scripts within the `g_retriever_m` folder.
 
-```bash
-bash scripts/get_ollama.sh
-```
+## Running the Demo App
 
-3. **Download the required Ollama model (e.g., Llama 3 8B):**
-
-```bash
-ollama pull llama3:8b
-```
-
-4. **Run the app:**
+To launch the interactive demo app, run:
 
 ```bash
 python g_retriever_m/app.py
 ```
+
+This starts the main application interface.
+
+## Dataset Setup
+
+To use the application, download the **WebQSP** dataset from the following link:
+
+🔗 [Download WebQSP Dataset](https://drive.google.com/file/d/1REhbLnyeGKJ_NbaHQ4imuv20-0j5ZX6R/view?usp=sharing)
+
+Then, place the dataset into the following folder structure:
+
+```
+g_retriever_m/dataset/webqsp/
+```
+
+Make sure the contents of the dataset are directly inside the `webqsp` folder.
+
+## Manual Testing
+
+You can test the retriever manually (without the interface) using `infer_sample.py`. Here's an example command:
+
+```bash
+python g_retriever_m/infer_sample.py --query "Give me an interesting fact about frank ocean" --dataset webqsp --sample_idx 0 --seed 1
+```
+
+## Scripts Overview
+
+- `app.py`: Entry point for the demo app.
+- `graph_app_data.py`: Contains helper functions to create graph data used by the app.
+- `infer_sample.py`: Used for manual testing. Includes helper functions for inference.
+- `api_utils.py`: Contains utility functions for easing inference in the app.
+- `api_retriever.py`: A API interface for model inference, used for faster execution on systems like Snellius.
 
 ---
