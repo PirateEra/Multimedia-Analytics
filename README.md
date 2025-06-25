@@ -13,6 +13,26 @@ conda activate g_retriever_m
 
 You can then run any of the scripts within the `g_retriever_m` folder.
 
+### Ollama Setup (Required for LLM-based Retrieval)
+
+The application relies on Ollama for LLM inference.
+
+**Install Ollama:**
+   Run the provided installation script:
+
+```bash
+bash scripts/get_ollama.sh
+```
+
+2. **Download the required LLM model:**
+
+```bash
+ollama pull llama3:8b
+```
+
+This will download the correct LLM (e.g., Llama 3 8B) for use by the application.
+
+
 ## Running the Demo App
 
 To launch the interactive demo app, run:
