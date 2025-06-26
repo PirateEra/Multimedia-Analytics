@@ -54,7 +54,7 @@ This starts the main application interface.
 
 To use the application, download the **dataset** folder from the following link:
 
-🔗 [Download Dataset](https://drive.google.com/file/d/1Y2qV_N5epb84TydAEV3PovyNntrBeHHy/view?usp=sharing)
+🔗 [Download Dataset](https://drive.google.com/file/d/1v2qhoh0ZrPDmgW8m-6k12OjptdiNw-3G/view?usp=sharing)
 
 Then, place the dataset into the following folder structure (note when cloning the repository, the old `g_retriever_m/dataset/' folder is still incomplete. Therefore, the downloaded dataset folder should replace the old one.):
 
